@@ -1,23 +1,23 @@
-## Por favor, n„o mexam
+## Por favor, n√£o mexam
 
 Lucas:
 nand.vhd
 Nor8Way.vhd
 And16.vhd
 
-Jo„o: (se alguÈm n„o quiser um pode passar pra mim ta!!)
+Jo√£o: (se algu√©m n√£o quiser um pode passar pra mim ta!!)
 Not16.vhd
 Or8Way.vhd
+Mux16.vhd
 
 Rafa:
 DMux2Way.vhd
 DMux4Way.vhd
 DMux8Way.vhd
 
-Marc„o:
+Marc√£o:
 Mux2Way.vhd
 Mux4Way.vhd
-Mux16.vhd
 
 Jhonata da nova generation:
 Mux4Way16.vhd

@@ -1,3 +1,5 @@
+
+29 lines (27 sloc) 577 Bytes
 ######################################
 # Rafael.Corsi @ Insper.edu.br       #
 #  Elementos de Sistemas             # 
@@ -8,9 +10,9 @@
 #                                    #
 ######################################
 
-#nand.vhd
-#Nor8Way.vhd
-#And16.vhd
+nand.vhd
+Nor8Way.vhd
+And16.vhd
 #Not16.vhd
 #Or8Way.vhd
 #Or16.vhd
@@ -20,6 +22,9 @@
 #Mux2Way.vhd
 #Mux4Way.vhd
 #Mux16.vhd
+#Mux2Way.vhd
+#Mux4Way.vhd
+#Mux16.vhd
 #Mux4Way16.vhd
-Mux8Way.vhd
+#Mux8Way.vhd
 #Mux8Way16.vhd

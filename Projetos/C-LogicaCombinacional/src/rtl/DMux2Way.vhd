@@ -10,7 +10,15 @@ entity DMux2Way is
 end entity;
 
 architecture rtl of DMux2Way is
-begin
-
-
+	begin
+	process (sel, a)
+		begin
+		if (sel='0') then
+			q0 <= a;
+			q1 <= '0';
+		else
+			q0 <= '0';
+			q1 <= a;
+		end if;
+	end process;
 end architecture;

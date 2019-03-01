@@ -41,7 +41,7 @@ architecture rtl of TopLevel is
 -- implementacao
 ---------------
 begin
- 
+
 process(SW)
  	begin
 		if (SW(3 downto 0) = "0000") then

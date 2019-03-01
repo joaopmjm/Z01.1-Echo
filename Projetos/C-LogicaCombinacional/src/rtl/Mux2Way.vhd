@@ -12,5 +12,14 @@ end entity;
 architecture arch of Mux2Way is
 begin
 
+	process(a,b,sel)
+	begin
+		if (sel = '0') then
+			q <= a;
+		elsif (sel = '1') then
+			q <= b;
+		end if;
+	end process;
+
 
 end architecture;

@@ -41,16 +41,42 @@ architecture rtl of TopLevel is
 -- implementacao
 ---------------
 begin
- 
-  LEDR(0) <= SW(0) or SW(1);
-  LEDR(1) <= SW(1);
-  HEX0 <= "0010010";
-  HEX1(0) <= '1';
-  HEX1(1) <= '1';
-  HEX1(2) <= '1';
-  HEX1(3) <= '1';
-  HEX1(4) <= '1';
-  HEX1(5) <= '1';
-  HEX1(6) <= '1';
-  
+
+process(SW)
+ 	begin
+		if (SW(3 downto 0) = "0000") then
+			HEX0 <= "1000000";
+		elsif (SW(3 downto 0) = "0001") then
+			HEX0 <= "1111001";
+		elsif (SW(3 downto 0) = "0010") then
+			HEX0 <= "0100100";
+		elsif (SW(3 downto 0) = "0011") then
+			HEX0 <= "0110000";
+		elsif (SW(3 downto 0) = "0100") then
+			HEX0 <= "0011001";
+		elsif (SW(3 downto 0) = "0101") then
+			HEX0 <= "0010010";
+		elsif (SW(3 downto 0) = "0110") then
+			HEX0 <= "0000010";
+		elsif (SW(3 downto 0) = "0111") then
+			HEX0 <= "1111000";
+		elsif (SW(3 downto 0) = "1000") then
+			HEX0 <= "0000000";
+		elsif (SW(3 downto 0) = "1001") then
+			HEX0 <= "0010000";
+		elsif (SW(3 downto 0) = "1010") then
+			HEX0 <= "0001000";
+		elsif (SW(3 downto 0) = "1011") then
+			HEX0 <= "0000011";
+		elsif (SW(3 downto 0) = "1100") then
+			HEX0 <= "1000110";
+		elsif (SW(3 downto 0) = "1101") then
+			HEX0 <= "0100001";
+		elsif (SW(3 downto 0) = "1110") then
+			HEX0 <= "0000110";
+		elsif (SW(3 downto 0) = "1111") then
+			HEX0 <= "0001110";
+		end if;
+end process;
+
 end rtl;

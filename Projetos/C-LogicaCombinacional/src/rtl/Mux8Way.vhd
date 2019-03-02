@@ -16,7 +16,29 @@ entity Mux8Way is
 end entity;
 
 architecture arch of Mux8Way is
+
 begin
 
+process(a,b,c,d,e,f,g,h,sel)
+	begin
 
+	if (sel = "000") then
+		q <= a;
+	elsif (sel = "001") then
+		q <= b;
+	elsif (sel = "010") then
+		q <= c;
+	elsif (sel = "011") then
+		q <= d;
+	elsif (sel = "100") then
+		q <= e;
+	elsif (sel = "101") then
+		q <= f;
+	elsif (sel = "110") then
+		q <= g;
+	elsif (sel = "111") then
+		q <= h;
+
+	end if;
+end process;
 end architecture;

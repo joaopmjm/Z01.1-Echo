@@ -19,7 +19,19 @@ architecture rtl of FullAdder is
   -- e componentes (outros módulos) que serao
   -- utilizados nesse modulo.
 
+  signal fio : std_logic;
+  signal fio2 : std_logic;
+  signal fio3 : std_logic;
+
+
 begin
   -- Implementação vem aqui!
+  fio <= a xor b;
+  fio2 <= fio and c;
+  fio3 <= a and b;
+
+  soma <= fio xor c;
+  vaium <= fio2 or fio3;
+
 
 end architecture;

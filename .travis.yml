@@ -46,4 +46,8 @@ before_script:
 # INSERIR AQUI !!!
 ###############################################
 script:
-  - python3 Projetos/C-LogicaCombinacional/testeLogicaCombinacional.py
+  #- python3 Projetos/0-Infra/testeVHDL.py -v
+    - python Projetos/src/C-LogicaCombinacional/testeLogicaCombinacional.py
+    - python Projetos/src/D-UnidadeLogicaAritmetica/testeULA.py
+    #  - python Projetos/src/E-LogicaSequencial/testeLogicaSequencial.py
+    #  - python Projetos/src/F-Assembly/testeAssembly.py

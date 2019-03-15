@@ -98,4 +98,17 @@ architecture  rtl OF alu is
 begin
   -- Implementação vem aqui!
 
+  zerador_x : zerador16 port map(zx, x, zxout);
+  inversor_x : inversor16 port map(nx, zxout, nxout);
+  zerador_y : zerador16 port map(zy, y, zyout);
+  inversor_y : inversor16 port map(ny, zyout, nyout);
+  addai : Add16 port map ( nxout,  nyout, adderout);
+  andi : And16 port map ( nxout, nyout, andout);
+  muxai : Mux16 port map (andout,adderout,f,muxout);
+
+
+  saida_total : inversor16 port map(no,muxout,saida);
+  
+  zn_f :  comparador16 port map( saida, zr, ng);
+
 end architecture;

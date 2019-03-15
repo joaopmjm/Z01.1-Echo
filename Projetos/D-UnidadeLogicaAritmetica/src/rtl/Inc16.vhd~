@@ -28,8 +28,7 @@ architecture rtl of Inc16 is
       );
   end component;
 
-signal um: STD_LOGIC_VECTOR(15 downto 0) := "0000000000000001";
 begin
   -- Implementação vem aqui!
-    C1: Add16 port map(a => a, b => um, q => q);
+
 end architecture;

@@ -44,12 +44,12 @@ architecture rtl of TopLevel is
       (
         x		:	 IN STD_LOGIC_VECTOR(15 DOWNTO 0);
         y		:	 IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-        zx	    :	 IN STD_LOGIC;
-        nx	    :	 IN STD_LOGIC;
-        zy	    :	 IN STD_LOGIC;
-        ny	    :	 IN STD_LOGIC;
-        f		:	 IN STD_LOGIC;
-        no	    :	 IN STD_LOGIC;
+        zx	    :	 IN STD_LOGIC; -- SW0
+        nx	    :	 IN STD_LOGIC; -- SW1
+        zy	    :	 IN STD_LOGIC; -- SW2
+        ny	    :	 IN STD_LOGIC; -- SW3
+        f		:	 IN STD_LOGIC; -- SW4
+        no	    :	 IN STD_LOGIC; -- SW5
         zr	    :	 OUT STD_LOGIC;
         ng	    :	 OUT STD_LOGIC;
         saida	:	 OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
@@ -62,7 +62,7 @@ architecture rtl of TopLevel is
 ---------------
 begin
 
-  ula0: ALU port map (
+    ula0: ALU port map (
     x                  => x,
     Y                  => y,
     Zx                 => SW(0),

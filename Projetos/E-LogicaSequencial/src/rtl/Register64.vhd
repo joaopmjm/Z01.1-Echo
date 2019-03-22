@@ -14,18 +14,18 @@ entity Register64 is
 	);
 end entity;
 
-architecture arch of Register16 is
+architecture arch of Register64 is
   -- Aqui declaramos sinais (fios auxiliares)
   -- e componentes (outros módulos) que serao
   -- utilizados nesse modulo.
 
 component Register32 is
 	port(clock: in STD_LOGIC;
-		 input: in STD_LOGIC_VECTOR(7 downto 0);
+		 input: in STD_LOGIC_VECTOR(31 downto 0);
 		 load:  in STD_LOGIC;
-		 output: out STD_LOGIC_VECTOR(7 downto 0)
+		 output: out STD_LOGIC_VECTOR(31 downto 0)
 		 );
-end component
+end component;
 
 begin
 	G1 : Register32 port map(clock,input(31 downto 0), load, output(31 downto 0));

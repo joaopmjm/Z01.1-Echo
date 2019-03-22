@@ -10,7 +10,7 @@ entity BinaryDigit is
 		clock:   in STD_LOGIC;
 		input:   in STD_LOGIC;
 		load:    in STD_LOGIC;
-		output: out STD_LOGIC
+		output: out STD_LOGIC := '0'
 	);
 end entity;
 

@@ -20,6 +20,7 @@ architecture arch of FlipFlopD is
   -- e componentes (outros módulos) que serao
   -- utilizados nesse modulo.
 begin
+
 process(clock, clear, preset)
 begin
   if (clear = '1') then

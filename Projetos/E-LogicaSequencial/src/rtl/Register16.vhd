@@ -29,6 +29,7 @@ architecture arch of Register16 is
 	end component;
 begin
 
+
 	B1 : BinaryDigit PORT MAP(clock,input(7 down to 0),load,output(7 down to 0));
 	B2 : BinaryDigit PORT MAP(clock,input(15 down to 7),load,output(15 down to 7));
 

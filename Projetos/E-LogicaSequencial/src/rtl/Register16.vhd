@@ -21,5 +21,4 @@ architecture arch of Register16 is
 
 begin
 
-
 end architecture;

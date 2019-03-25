@@ -28,7 +28,7 @@ class tstLogiSeq(object):
         self.log = os.path.join(TOOL_PATH,'log','logE.xml')
         self.work = vhdlScript(self.log)
 
-    def addSrc(self, work):q
+    def addSrc(self, work):
         work.addSrc(self.rtl)
 
     def addTst(self, work):

@@ -49,5 +49,5 @@ script:
   #- python3 Projetos/0-Infra/testeVHDL.py -v
     - python Projetos/C-LogicaCombinacional/testeLogicaCombinacional.py
     - python Projetos/D-UnidadeLogicaAritmetica/testeULA.py
-    - python Projetos/src/E-LogicaSequencial/testeLogicaSequencial.py
-    #  - python Projetos/src/F-Assembly/testeAssembly.py
+    - python Projetos/E-LogicaSequencial/testeLogicaSequencial.py
+    #  - python Projetos/F-Assembly/testeAssembly.py

@@ -29,8 +29,31 @@ architecture arch of PC is
   -- e componentes (outros módulos) que serao
   -- utilizados nesse modulo.
 
+component inc16 is
+	port(
+		a   :  in STD_LOGIC_VECTOR(15 downto 0);
+		q   : out STD_LOGIC_VECTOR(15 downto 0)
+	);
+	end component;
 
+component Mux16 is
+	port ( 
+			a:   in  STD_LOGIC_VECTOR(15 downto 0);
+			b:   in  STD_LOGIC_VECTOR(15 downto 0);
+			sel: in  STD_LOGIC;
+			q:   out STD_LOGIC_VECTOR(15 downto 0));
+	end component;
+
+component Register8 is
+	port(
+		clock:   in STD_LOGIC;
+		input:   in STD_LOGIC_VECTOR(7 downto 0);
+		load:    in STD_LOGIC;
+		output: out STD_LOGIC_VECTOR(7 downto 0) := "00000000"
+	);
+	end component;
 begin
+	
 
 
 end architecture;

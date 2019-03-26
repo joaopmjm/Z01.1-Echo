@@ -49,23 +49,30 @@ component Ram8 is
 		address: in  STD_LOGIC_VECTOR( 2 downto 0);
 		output:  out STD_LOGIC_VECTOR(15 downto 0)
 	);
-end component;
+
 --------------
 -- signals
 --------------
 
-signal clock: std_logic;
-begin
-process (clock)
+signal clock, clear, set : std_logic;
+
 ---------------
 -- implementacao
 ---------------
 begin
 
-clock <= not KEY(0); -- os botoes quando nao apertado vale 1
+Clock <= not KEY(0); -- os botoes quando nao apertado vale 1
                      -- e apertado 0, essa logica inverte isso
+clear <= not KEY(1);
+set	<= not KEY(2);
 
-u0 : Ram8 port map(clock,SW(0),not KEY(1),SW,LEDR(15 downto 0);
+u0 : Ram8 port map (
+		clock    => Clock;
+		input        => SW(0);
+		load    => KEY(1);
+		adress   => SW(9 downto 7);
+		q        => LEDR(0)
+	);		
  
-end process;
+
 end rtl;

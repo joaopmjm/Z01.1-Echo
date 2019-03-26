@@ -44,16 +44,20 @@ component Mux16 is
 			q:   out STD_LOGIC_VECTOR(15 downto 0));
 	end component;
 
-component Register8 is
+component Register16 is
 	port(
 		clock:   in STD_LOGIC;
-		input:   in STD_LOGIC_VECTOR(7 downto 0);
+		input:   in STD_LOGIC_VECTOR(15 downto 0);
 		load:    in STD_LOGIC;
-		output: out STD_LOGIC_VECTOR(7 downto 0) := "00000000"
+		output: out STD_LOGIC_VECTOR(15 downto 0) := "0000000000000000"
 	);
 	end component;
+SIGNAL incout,mux0,mux1, mux2, output1: std_logic_vector(15 downto 0);
 begin
-	
-
-
+	I : inc16 port map(output1, incout);
+	S0 : Mux16 port map(output1, incout, increment, mux0);
+	S1 : Mux16 port map(mux0, input,load,mux1);
+	S2 : Mux16 port map(mux1, "0000000000000000", reset, mux2);
+	R1 : Register16 port map(clock, mux2, '1', output1);
+	output <= output1;
 end architecture;

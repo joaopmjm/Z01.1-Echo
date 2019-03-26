@@ -63,17 +63,17 @@ signal S0, S1, S2, S3, S4, S5, S6, S7: STD_LOGIC_VECTOR(15 downto 0);
 signal D0, D1, D2, D3, D4, D5, D6, D7: STD_LOGIC;
 
 begin
-	Set_Mem: Mux8Way16 port map(S0, S1, S2, S3, S4, S5, S6, S7, address, output);
+	Set_Mem: DMux8Way port map(load, address, D0, D1, D2, D3, D4, D5, D6, D7);
 
-	Slot0: Register16 port map(clock, input, load, S0);
-	Slot1: Register16 port map(clock, input, load, S1);
-	Slot2: Register16 port map(clock, input, load, S2);
-	Slot3: Register16 port map(clock, input, load, S3);
-	Slot4: Register16 port map(clock, input, load, S4);
-	Slot5: Register16 port map(clock, input, load, S5);
-	Slot6: Register16 port map(clock, input, load, S6);
-	Slot7: Register16 port map(clock, input, load, S7);
+	Slot0: Register16 port map(clock, input, D0, S0);
+	Slot1: Register16 port map(clock, input, D1, S1);
+	Slot2: Register16 port map(clock, input, D2, S2);
+	Slot3: Register16 port map(clock, input, D3, S3);
+	Slot4: Register16 port map(clock, input, D4, S4);
+	Slot5: Register16 port map(clock, input, D5, S5);
+	Slot6: Register16 port map(clock, input, D6, S6);
+	Slot7: Register16 port map(clock, input, D7, S7);
 
-	Ret_Mem: Dmux8Way port map(load, address, D0, D1, D2, D3, D4, D5, D6, D7);
+	Ret_Mem: Mux8Way16 port map(S0, S1, S2, S3, S4, S5, S6, S7, address, output);
 		
 end architecture;

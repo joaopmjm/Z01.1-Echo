@@ -1,9 +1,9 @@
-leaw $R1, %A
-
-
-
-
-
+leaw $R0,%A
+movw (%A),%D
+leaw $R1,%A
+subw (%A), %D, %S
+leaw $R2, %A
+movw %S, (%A)
 
 
 

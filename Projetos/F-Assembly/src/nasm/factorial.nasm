@@ -1,11 +1,10 @@
-; ####################################################################
 ; Arquivo: Factorial.nasm
 ; Curso: Elementos de Sistemas
 ; Criado por: Luciano Soares
 ; Data: 27/03/2017
 ;
 ; Calcula o fatorial do número em R0 e armazena o valor em R1.
-; ####################################################################
+
 leaw $0, %A
 movw (%A), %D
 leaw $1, %A
@@ -47,3 +46,4 @@ incw %D
 fact:
 	leaw $1, %A
 	movw %D, (%A)
+

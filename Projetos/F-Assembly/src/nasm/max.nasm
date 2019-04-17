@@ -9,3 +9,14 @@
 ; ou seja, o maior valor que estiver, ou em R0 ou R1 sera copiado para R2
 ; Estamos considerando número inteiros
 
+leaw $R0, %A
+movw (%A), %S
+leaw $R1, %A
+subw %S, (%A), %D
+leaw $R9, %A
+jg %D
+nop
+leaw $R1, %A
+movw (%A), %S
+leaw $R2, %A
+movw %S, (%A)

@@ -50,4 +50,4 @@ script:
     - python Projetos/C-LogicaCombinacional/testeLogicaCombinacional.py
     - python Projetos/D-UnidadeLogicaAritmetica/testeULA.py
     - python Projetos/E-LogicaSequencial/testeLogicaSequencial.py
-    - python Projetos/F-Assembly/testeAssembly.py
+    - python3 Projetos/F-Assembly/testeAssembly.py

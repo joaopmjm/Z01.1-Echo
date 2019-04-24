@@ -3,7 +3,7 @@
 ; Criado por: Luciano Soares
 ; Data: 27/03/2017
 ;
-;  Encontra o resto da divisão entre RAM[0] e RAM[1] e o salva em RAM[2].
+;  Encontra o resto da divisão entre RAM[2] e RAM[1] e o salva em RAM[0].
 
 leaw $R1,%A ; aponta A para R1
 movw (%A), %S ; aponta A para R1

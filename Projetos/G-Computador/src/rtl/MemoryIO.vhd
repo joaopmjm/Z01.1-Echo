@@ -43,9 +43,9 @@ ARCHITECTURE logic OF MemoryIO IS
       RST 	   : IN  STD_LOGIC;
 
       -- interface
-      INPUT        : IN STD_LOGIC_VECTOR(15 downto 0); -- vetor de pxs
-      LOAD         : IN  STD_LOGIC;                    -- grava dado
-      ADDRESS      : IN STD_LOGIC_VECTOR(13 downto 0); -- endereço
+      INPUT        : IN STD_LOGIC_VECTOR(15 downto 0);
+      LOAD         : IN  STD_LOGIC;
+      ADDRESS      : IN STD_LOGIC_VECTOR(13 downto 0);
 
       -- LCD EXTERNAL I/OS
       LCD_INIT_OK  : OUT STD_LOGIC;
@@ -54,7 +54,7 @@ ARCHITECTURE logic OF MemoryIO IS
       LCD_RD_N     : OUT   STD_LOGIC;
       LCD_RESET_N  : OUT   STD_LOGIC;
       LCD_RS       : OUT   STD_LOGIC;
-      LCD_WR_N     : OUT   STD_LOGIC);
+      LCD_WR_N     : OUT   STD_LOGIC);	
   end component;
 
   component RAM16K is
@@ -66,7 +66,7 @@ ARCHITECTURE logic OF MemoryIO IS
       q		   : OUT STD_LOGIC_VECTOR (15 DOWNTO 0));
   end component;
 
-  component Mux4Way16 is
+  component Mux2Way is
     Port (
       sel : in  STD_LOGIC_VECTOR ( 1 downto 0);
       a   : in  STD_LOGIC_VECTOR (15 downto 0);
@@ -75,8 +75,48 @@ ARCHITECTURE logic OF MemoryIO IS
       d   : in  STD_LOGIC_VECTOR (15 downto 0);
       q   : out STD_LOGIC_VECTOR (15 downto 0));
   end component;
-
+  component DMux4Way is
+  	Port (
+  		a:   in  STD_LOGIC;
+		sel: in  STD_LOGIC_VECTOR(1 downto 0);
+		q0:  out STD_LOGIC;
+		q1:  out STD_LOGIC;
+		q2:  out STD_LOGIC;
+		q3:  out STD_LOGIC)
+  	);
+  	end component;
+  	component Register16 is
+  	Port (
+  		clock:   in STD_LOGIC;
+		input:   in STD_LOGIC_VECTOR(15 downto 0);
+		load:    in STD_LOGIC;
+		output: out STD_LOGIC_VECTOR(15 downto 0) := "0000000000000000"
+  	);
+  	end component;
+signal load0, load1 : STD_LOGIC;
+signal dec : STD_LOGIC_VECTOR(1 DOWNTO 0);
+signal wren0 : STD_LOGIC_VECTOR(13 DOWNTO 0);
+signal data0 : STD_LOGIC_VECTOR(15 DOWNTO 0);
+process
 begin
+	if (ADRESS < "100000000000000") then dec <= "00";
+	elsif (ADRESS < "101001011000000") then dec <= "01";
+	elsif (ADRESS < "101001011000001") dec <= "10";
+	else dec <= "11";
+	end if;
+
+	DMUX0 : DMux4Way port map(LOAD,dec,wren0,load0,load2);
+	R16 : RAM16k port map(CLK_FAST,ADRESS(13 downto 0),INPUT,wren0,data0);
+	INPUT(15 downto 10) <= "000000";
+	REG16 : Register16 port map(CLK_SLOW, INPUT,load0,LED);
+	SCR : Screen port map(CLK_FAST,CLK_SLOW,'0',INPUT,LOAD,ADRESS,LCD_INIT_OK,LCD_CS_N,LCD_D,LCD_RD_N,LCD_RESET_N,LCD_RS,LCD_WR_N);
+	SW(15 downto 10) <= "000000";
+	MUX0 : Mux2Way(dec,data0,"0000000000000000","0000000000000000",SW);
+
+end process;
+END logic;
+
+
 
 -----------------------------------
 -- Dicas de uso, screen e RAM16k --
@@ -106,6 +146,3 @@ begin
 --         wren		  =>
 --         q		    =>
 --    );
-
-
-END logic;

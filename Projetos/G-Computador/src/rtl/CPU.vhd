@@ -106,7 +106,29 @@ architecture arch of CPU is
 
   signal s_pcout: STD_LOGIC_VECTOR(15 downto 0);
 
-
 begin
+	
+	decoder ControlUnit PORT MAP (instruction,c_zr,c_ng,
+								  c_muxALUI_A,c_muxAM,c_muxAMD_ALU,c_muxSD_ALU,
+								  c_zx,c_nx,c_zy,c_ny,c_f,c_no,
+								  c_loadA,c_loadD,c_loadS,writeM,c_loadPC)
+
+	muxalul: Mux16 PORT MAP(s_ALUout,instruction,c_muxALUI,s_muxALUI_Aout);
+	ARegister : Register16 PORT MAP(clock,s_muxALUI_Aout,c_loadA,s_regAout);
+	DRegister : Register16 PORT MAP(clock,s_ALUout,c_loadD,s_regDout);
+	SRegister : Register16 PORT MAP(clock,s_ALUout,c_loadS,s_regSout);
+	muxAM : Mux16 PORT MAP(s_regAout,inM,c_muxAM,s_muxAM_out);
+	muxSD : Mux16 PORT MAP(s_regSout,s_regDout,c_muxSD_ALU,s_muxSD_out);
+	muxAMD : Mux16 PORT MAP(s_regDout,s_muxAM_out,c_muxAMD_ALU,s_muxAMD_ALUout);
+	ALUxy : ALU PORT MAP(s_muxSD_out,s_muxAMD_ALUout,
+			c_zx,c_nx,c_zy,c_ny,c_f,c_no,c_zr,c_ng,
+			s_ALUout);
+	PC1 : PC PORT MAP(clock,'1',c_loadPC,reset,s_regAout,s_pcout)
+
+
+	outM <= s_ALUout;
+	addressM <= s_regAout(14 downto 0);
+	pcout <= s_pcout(14 downto 0);
+
 
 end architecture;

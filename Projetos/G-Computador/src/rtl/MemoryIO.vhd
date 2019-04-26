@@ -11,9 +11,9 @@ entity MemoryIO is
 
      -- RAM 16K
      ADDRESS  : IN  STD_LOGIC_VECTOR (14 DOWNTO 0);
-     INPUT		: IN  STD_LOGIC_VECTOR (15 DOWNTO 0);
-     LOAD	  	: IN  STD_LOGIC ;
-     OUTPUT		: OUT STD_LOGIC_VECTOR (15 DOWNTO 0);
+     INPUT    : IN  STD_LOGIC_VECTOR (15 DOWNTO 0);
+     LOAD     : IN  STD_LOGIC ;
+     OUTPUT   : OUT STD_LOGIC_VECTOR (15 DOWNTO 0);
 
      -- LCD EXTERNAL I/OS
      LCD_CS_N     : OUT   STD_LOGIC;
@@ -22,14 +22,14 @@ entity MemoryIO is
      LCD_RESET_N  : OUT   STD_LOGIC;
      LCD_RS       : OUT   STD_LOGIC;
      LCD_WR_N     : OUT   STD_LOGIC;
-     LCD_ON       : OUT   STD_LOGIC := '1';	-- liga e desliga o LCD
+     LCD_ON       : OUT   STD_LOGIC := '1'; -- liga e desliga o LCD
      LCD_INIT_OK  : OUT   STD_LOGIC;
 
      -- I/Os
      SW  : in std_logic_vector(9 downto 0);
      LED : OUT std_logic_vector(9 downto 0)
 
-		);
+    );
 end entity;
 
 
@@ -40,12 +40,12 @@ ARCHITECTURE logic OF MemoryIO IS
       -- Sistema
       CLK_FAST : IN  STD_LOGIC;
       CLK_SLOW : IN  STD_LOGIC;
-      RST 	   : IN  STD_LOGIC;
+      RST      : IN  STD_LOGIC;
 
       -- interface
-      INPUT        : IN STD_LOGIC_VECTOR(15 downto 0);
-      LOAD         : IN  STD_LOGIC;
-      ADDRESS      : IN STD_LOGIC_VECTOR(13 downto 0);
+      INPUT        : IN STD_LOGIC_VECTOR(15 downto 0); -- vetor de pxs
+      LOAD         : IN  STD_LOGIC;                    -- grava dado
+      ADDRESS      : IN STD_LOGIC_VECTOR(13 downto 0); -- endereço
 
       -- LCD EXTERNAL I/OS
       LCD_INIT_OK  : OUT STD_LOGIC;
@@ -54,16 +54,16 @@ ARCHITECTURE logic OF MemoryIO IS
       LCD_RD_N     : OUT   STD_LOGIC;
       LCD_RESET_N  : OUT   STD_LOGIC;
       LCD_RS       : OUT   STD_LOGIC;
-      LCD_WR_N     : OUT   STD_LOGIC);	
+      LCD_WR_N     : OUT   STD_LOGIC);
   end component;
 
   component RAM16K is
     port  (
-      clock		: IN STD_LOGIC;
-      address	: IN STD_LOGIC_VECTOR (13 DOWNTO 0);
-      data		: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
-      wren		: IN STD_LOGIC;
-      q		   : OUT STD_LOGIC_VECTOR (15 DOWNTO 0));
+      clock   : IN STD_LOGIC;
+      address : IN STD_LOGIC_VECTOR (13 DOWNTO 0);
+      data    : IN STD_LOGIC_VECTOR (15 DOWNTO 0);
+      wren    : IN STD_LOGIC;
+      q      : OUT STD_LOGIC_VECTOR (15 DOWNTO 0));
   end component;
 
   component Mux4Way16 is
@@ -75,6 +75,7 @@ ARCHITECTURE logic OF MemoryIO IS
 	sel: in  STD_LOGIC_VECTOR(1 downto 0);
 	q:   out STD_LOGIC_VECTOR(15 downto 0));
   end component;
+
   component DMux4Way is
   	Port (
   		a:   in  STD_LOGIC;
@@ -120,34 +121,3 @@ begin
 	MUX0 : Mux4Way16 port map(data0,"0000000000000000","0000000000000000",SW0,dec,OUTPUT);
 
 END logic;
-
-
-
------------------------------------
--- Dicas de uso, screen e RAM16k --
------------------------------------
-
---    DISPLAY: Screen  port map (
---          RST         => RST,
---          CLK_FAST    => CLK_FAST,
---          CLK_SLOW    => CLK_SLOW,
---          INPUT       =>
---          LOAD        =>
---          ADDRESS     =>
---          LCD_INIT_OK => LCD_INIT_OK,
---          LCD_CS_N 	  => LCD_CS_N ,
---          LCD_D       => LCD_D,
---          LCD_RD_N 	  => LCD_RD_N,
---          LCD_RESET_N => LCD_RESET_N,
---          LCD_RS 	    => LCD_RS,
---          LCD_WR_N 	  => LCD_WR_N
---    );
-
-
---    RAM: RAM16K  PORT MAP(
---         clock		=> CLK_FAST,
---         address  =>
---         data		  =>
---         wren		  =>
---         q		    =>
---    );

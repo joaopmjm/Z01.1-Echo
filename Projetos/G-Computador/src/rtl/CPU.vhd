@@ -106,8 +106,6 @@ architecture arch of CPU is
 
   signal s_pcout: STD_LOGIC_VECTOR(15 downto 0);
 
-
-
 begin
 	
 	decoder ControlUnit PORT MAP (instruction,c_zr,c_ng,

@@ -25,28 +25,34 @@ end entity;
 architecture arch of ControlUnit is
 
 
-signal jump0, jump1, jump2, jump3, jump4, jump5, jump6, jump7 : STD_LOGIC;
+signal jump0, jump1, jump2, jump3, jump4, jump5, jump6, jump7, jump8, jump9, jump10, jump11, jump12, jump13, jump14 : STD_LOGIC;
 
 
 begin
 
-	loadA <= not instruction(17);
-
-	loadA <= instruction(17) and instruction (6);
+	loadA <= (instruction(17) and instruction (6)) or not instruction(17);
 	loadD <= instruction(17) and instruction (4);
 	loadS <= instruction(17) and instruction (5);
-	loadM <= instruction(17) and not instruction(3);
+	loadM <= instruction(17) and instruction(3);
 
-	jump0 <= ng and zr and instruction(2) and instruction(1) and not instruction(0);
-	jump1 <= not ng and zr and instruction(2) and not instruction(1) and instruction(0);
-	jump2 <= not zr and not instruction(2) and instruction(1) and instruction(0);
-	jump3 <= not ng and not zr and not instruction(2) and not instruction(1) and instruction(0);
-	jump4 <= instruction(2) and instruction(1) and instruction(0);
-	jump5 <= not ng and instruction(2) and not instruction(1) and instruction(0);
-	jump6 <= not ng and zr and instruction(2) and not instruction(1) and not instruction(0);
-	jump7 <= ng and not zr and not instruction(2) and instruction(1) and not instruction(0);
+	jump0 <= not instruction(2) and not instruction(1) and instruction(0) and not zr and not ng; 
+	jump1 <= not instruction(2) and instruction(1) and not instruction(0) and zr and not ng;
+	jump2 <= not instruction(2) and instruction(1) and not instruction(0) and zr and ng;
+	jump3 <= instruction(2) and not instruction(1) and not instruction(0) and not zr and ng;
+	jump4 <= not instruction(2) and instruction(1) and instruction(0) and not zr and not ng;
+	jump5 <= not instruction(2) and instruction(1) and instruction(0) and zr and not ng;
+	jump6 <= not instruction(2) and instruction(1) and instruction(0) and zr and ng;
+	jump7 <= instruction(2) and instruction(1) and not instruction(0) and zr and not ng;
+	jump8 <= instruction(2) and instruction(1) and not instruction(0) and not zr and ng;
+	jump9 <= instruction(2) and instruction(1) and not instruction(0) and zr and ng;
+	jump10 <= instruction(2) and not instruction(1) and instruction(0) and not zr and not ng;
+	jump11 <= instruction(2) and not instruction(1) and instruction(0) and not zr and ng;
+	jump12 <= instruction(2) and instruction(1) and instruction(1); 
 
-	loadPC <= instruction(17) and (jump0 or jump1 or jump2 or jump3 or jump4 or jump5 or jump6 or jump7); 
+	jump13 <= jump0 or jump1 or jump2 or jump3 or jump4 or jump5;
+	jump14 <= jump6 or jump7 or jump8 or jump9 or jump10 or jump11;
+
+	loadPC <= instruction(17) and (jump12 or jump13 or jump14);
 
 	zx <= instruction(17) and instruction(12);
 	nx <= instruction(17) and instruction(11);

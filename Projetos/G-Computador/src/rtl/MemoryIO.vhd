@@ -76,6 +76,14 @@ ARCHITECTURE logic OF MemoryIO IS
 	q:   out STD_LOGIC_VECTOR(15 downto 0));
   end component;
 
+  component Mux16 is
+    Port (
+  a:   in  STD_LOGIC_VECTOR(15 downto 0);
+  b:   in  STD_LOGIC_VECTOR(15 downto 0);
+  sel: in  STD_LOGIC;
+  q:   out STD_LOGIC_VECTOR(15 downto 0));
+  end component;
+
   component DMux4Way is
   	Port (
   		a:   in  STD_LOGIC;
@@ -91,33 +99,33 @@ ARCHITECTURE logic OF MemoryIO IS
   		clock:   in STD_LOGIC;
 		input:   in STD_LOGIC_VECTOR(15 downto 0);
 		load:    in STD_LOGIC;
-		output: out STD_LOGIC_VECTOR(15 downto 0) := "0000000000000000"
-  	);
+		output: out STD_LOGIC_VECTOR(15 downto 0)
+    );
   	end component;
-signal load0, load1,wren0 : STD_LOGIC;
+
+signal load0, load1, wren0, descarted : STD_LOGIC;
 signal dec : STD_LOGIC_VECTOR(1 DOWNTO 0);
-signal LED0, SW0 : STD_LOGIC_VECTOR(15 downto 0);
- -- signal wren0 : STD_LOGIC_VECTOR(13 DOWNTO 0);
-signal data0 : STD_LOGIC_VECTOR(15 DOWNTO 0);
+signal LED0, sw0, data0 : STD_LOGIC_VECTOR(15 downto 0);
+
 begin
 
 	dec <= "00" when (ADDRESS < "100000000000000");
-	dec <= "01" when (ADDRESS < "101001011000000" and ADDRESS > "100000000000000");
-	dec <= "10" when (ADDRESS < "101001011000001" and ADDRESS > "101001011000000");
+	dec <= "01" when (ADDRESS < "101001011000000" and ADDRESS >= "100000000000000");
+	dec <= "10" when (ADDRESS < "101001011000001" and ADDRESS >= "101001011000000");
 	dec <= "11" when (ADDRESS > "101001011000001");
 
-	DMUX0 : DMux4Way port map(LOAD,dec,wren0,load0,load1);
+	DMUX0 : DMux4Way port map(LOAD,dec,wren0,load0,load1,descarted);
 
-	R16 : RAM16k port map(CLK_FAST,ADDRESS(13 downto 0),INPUT,wren0,data0);
+	R16 : RAM16K port map(CLK_FAST,ADDRESS(13 downto 0),INPUT,wren0,data0);
 
 	REG16 : Register16 port map(CLK_SLOW, INPUT,load0,LED0);
 
-	LED <= LED0(9 downto 0);
+  LED <= LED0(9 downto 0);
 
-	SCR : Screen port map(CLK_FAST,CLK_SLOW,'0',INPUT,LOAD,ADDRESS(13 downto 0),LCD_INIT_OK,LCD_CS_N,LCD_D,LCD_RD_N,LCD_RESET_N,LCD_RS,LCD_WR_N);
+	SCR : Screen port map(CLK_FAST,CLK_SLOW,RST,INPUT,load1,ADDRESS(13 downto 0),LCD_INIT_OK,LCD_CS_N,LCD_D,LCD_RD_N,LCD_RESET_N,LCD_RS,LCD_WR_N);
 
-	SW0(9 downto 0) <= SW;
+  sw0(9 downto 0) <= SW;
 
-	MUX0 : Mux4Way16 port map(data0,"0000000000000000","0000000000000000",SW0,dec,OUTPUT);
+	MUX0 : Mux16 port map(sw0,data0,'1',OUTPUT);
 
 END logic;

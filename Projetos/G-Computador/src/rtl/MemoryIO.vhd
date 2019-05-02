@@ -76,14 +76,6 @@ ARCHITECTURE logic OF MemoryIO IS
 	q:   out STD_LOGIC_VECTOR(15 downto 0));
   end component;
 
-  component Mux16 is
-    Port (
-  a:   in  STD_LOGIC_VECTOR(15 downto 0);
-  b:   in  STD_LOGIC_VECTOR(15 downto 0);
-  sel: in  STD_LOGIC;
-  q:   out STD_LOGIC_VECTOR(15 downto 0));
-  end component;
-
   component DMux4Way is
   	Port (
   		a:   in  STD_LOGIC;
@@ -94,6 +86,7 @@ ARCHITECTURE logic OF MemoryIO IS
 		q3:  out STD_LOGIC
   	);
   	end component;
+    
   	component Register16 is
   	Port (
   		clock:   in STD_LOGIC;
@@ -109,10 +102,9 @@ signal LED0, sw0, data0 : STD_LOGIC_VECTOR(15 downto 0);
 
 begin
 
-	dec <= "00" when (ADDRESS < "100000000000000");
-	dec <= "01" when (ADDRESS < "101001011000000" and ADDRESS >= "100000000000000");
-	dec <= "10" when (ADDRESS < "101001011000001" and ADDRESS >= "101001011000000");
-	dec <= "11" when (ADDRESS > "101001011000001");
+  dec <= "00" when ADDRESS <= "011111111111111" else
+       "01" when ADDRESS <= "101001010111111" and ADDRESS >= "100000000000000" else
+       "10" when ADDRESS = "101001011000000" else "11";
 
 	DMUX0 : DMux4Way port map(LOAD,dec,wren0,load0,load1,descarted);
 
@@ -126,6 +118,6 @@ begin
 
   sw0(9 downto 0) <= SW;
 
-	MUX0 : Mux16 port map(sw0,data0,'1',OUTPUT);
+  MUX0 : Mux4Way16 port map(data0,X"0000",X"0000",SW0,dec,OUTPUT);
 
 END logic;

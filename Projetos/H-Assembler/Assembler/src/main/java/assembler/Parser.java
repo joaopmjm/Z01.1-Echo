@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * Encapsula o código de leitura. Carrega as instruções na linguagem assembly,
@@ -69,7 +70,14 @@ public class Parser {
      * @return o tipo da instrução.
      */
     public CommandType commandType(String command) {
-    	return null;
+        String[] assmebly = new String[]{"movw","addw","subw","rsubw","incw","decw","notw","negw","andw","orw","jmp","je","jne","jg","jge","jl","jle","nop",};
+    	String[] comandos = command.split(" ");
+    	if (comandos[0] == "leaw"){
+    	    return CommandType.A_COMMAND;
+        }else if(Arrays.stream(comandos).anyMatch(comandos[0]::equals) == true){
+    	    return CommandType.C_COMMAND;
+        }else{return  CommandType.L_COMMAND;
+    }
     }
 
     /**

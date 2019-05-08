@@ -63,7 +63,7 @@ begin
 
 	muxALUI_A <= not instruction(17);
 	muxAM <= instruction(17) and (instruction(14) and not instruction(15));
-	muxSD_ALU <= instruction(17) and instruction(15) and (instruction(13) and (not instruction(14)));
+	muxSD_ALU <= instruction(17) and (not instruction(13));
 	muxAMD_ALU <= instruction(17) and (not instruction(15));
 
 end architecture;

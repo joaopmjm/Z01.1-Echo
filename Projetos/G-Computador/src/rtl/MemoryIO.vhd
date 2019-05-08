@@ -108,7 +108,7 @@ begin
 
 	DMUX0 : DMux4Way port map(LOAD,dec,wren0,load1,load0,descarted);
 
-	R16 : RAM16K port map(CLK_FAST,ADDRESS(13 downto 0),INPUT,wren0,data0);
+	RAM : RAM16K port map(CLK_FAST,ADDRESS(13 downto 0),INPUT,wren0,data0);
 
 	REG16 : Register16 port map(CLK_SLOW, INPUT,load0,LED0);
 

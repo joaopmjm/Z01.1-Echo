@@ -5,6 +5,7 @@
 
 package assembler;
 
+import javax.sound.midi.SysexMessage;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -50,7 +51,15 @@ public class Parser {
      */
     public Boolean advance() {
         // usar o fileReader.readLine();
-    	return null;
+        this.lineNumber++;
+        try{
+            this.currentLine = fileReader.readLine();
+            return true;
+        }catch (IOException e){
+            e.printStackTrace();
+            return false;
+        }
+
     }
 
     /**
@@ -58,7 +67,7 @@ public class Parser {
      * @return a instrução atual para ser analilisada
      */
     public String command() {
-    	return null;
+    	return this.currentCommand;
     }
 
     /**

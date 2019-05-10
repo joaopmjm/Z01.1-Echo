@@ -16,9 +16,36 @@ public class Code {
      * @return Opcode (String de 4 bits) com código em linguagem de máquina para a instrução.
      */
     public static String dest(String[] mnemnonic) {
+        if (mnemnonic[0].equals("movw")){
+            if (mnemnonic.length == 4){
+                if ((mnemnonic[mnemnonic.length -1].equals("%D") && mnemnonic[mnemnonic.length-2].equals("%S")) ||  ((mnemnonic[mnemnonic.length-1].equals("%S") && mnemnonic[mnemnonic.length-2].equals("%D")))){
+                return "0110";
+            }
+            else if((mnemnonic[mnemnonic.length -1].equals("%D") && mnemnonic[mnemnonic.length-2].equals("%A")) ||  ((mnemnonic[mnemnonic.length-1].equals("%A") && mnemnonic[mnemnonic.length-2].equals("%D")))){
+                return "1010";
+            }else if((mnemnonic[mnemnonic.length -1].equals("%S") && mnemnonic[mnemnonic.length-2].equals("%A")) ||  ((mnemnonic[mnemnonic.length-1].equals("%A") && mnemnonic[mnemnonic.length-2].equals("%S")))){
+                return "1100";
+            }else if((mnemnonic[mnemnonic.length -1].equals("%S") && mnemnonic[mnemnonic.length-2].equals("(%A)")) ||  ((mnemnonic[mnemnonic.length-1].equals("(%A)") && mnemnonic[mnemnonic.length-2].equals("%S")))){
+                return "0101";
+            }else if((mnemnonic[mnemnonic.length -1].equals("%D") && mnemnonic[mnemnonic.length-2].equals("(%A)")) ||  ((mnemnonic[mnemnonic.length-1].equals("(%A)") && mnemnonic[mnemnonic.length-2].equals("%D")))){
+                return "0011";
+            }}}
 
-
-    	return "";
+        switch (mnemnonic[mnemnonic.length-1]){
+            case "jmp"  :
+            case "jg"   :
+            case "je"   :
+            case "jge"  :
+            case "jl"   :
+            case "jne"  :
+            case "jle"  :
+                return "0000";
+            case "%A"  : return "1000";
+            case "%D"  : return "0010";
+            case "%S"  : return "0100";
+            case "(%A)"  : return "0001";
+        }
+        return "0000";
     }
 
     /**
@@ -27,8 +54,6 @@ public class Code {
      * @return Opcode (String de 7 bits) com código em linguagem de máquina para a instrução.
      */
     public static String comp(String[] mnemnonic) {
-
-
     	return "";
     }
 

@@ -5,12 +5,16 @@
 
 package assembler;
 
+import sun.awt.image.ImageWatched;
+
 import javax.sound.midi.SysexMessage;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
 
 /**
  * Encapsula o código de leitura. Carrega as instruções na linguagem assembly,
@@ -51,15 +55,18 @@ public class Parser {
      */
     public Boolean advance() {
         // usar o fileReader.readLine();
-        this.lineNumber++;
         try{
-            this.currentLine = fileReader.readLine();
-            return true;
-        }catch (IOException e){
-            e.printStackTrace();
-            return false;
-        }
-
+            while(true){
+                String read = fileReader.readLine();
+                this.lineNumber++;
+                if (read == null){ return false;}
+                else if(commandType(read).equals(CommandType.A_COMMAND) || commandType(read).equals(CommandType.C_COMMAND)){
+                    this.currentCommand = read;
+                    return true;
+                }
+            }
+        }catch (IOException ex){ex.printStackTrace();}
+        return null;
     }
 
     /**
@@ -67,6 +74,17 @@ public class Parser {
      * @return a instrução atual para ser analilisada
      */
     public String command() {
+        String[] sp = this.currentCommand.split(" ");
+        String sts = "";
+        for(String s:sp){
+            if (!s.isEmpty()){
+            if (s.charAt(0) != ';'){
+                sts += s + " ";
+            }else{
+                break;
+            }
+        }}
+        this.currentCommand = sts.substring(0, sts.length() - 1);
     	return this.currentCommand;
     }
 
@@ -80,24 +98,16 @@ public class Parser {
      */
     public CommandType commandType(String command){
         String[] assmebly = new String[]{"movw","addw","subw","rsubw","incw","decw","notw","negw","andw","orw","jmp","je","jne","jg","jge","jl","jle","nop",};
-        String[] codes=new String[]{};
-        try {
-            codes = command.split(" ", 2);
-        } catch (Exception e){
-            codes[0] = command;
-        }
-
-        if (codes[0].equals("leaw")){
+        LinkedList<String> codes = new LinkedList<String>();
+        Collections.addAll(codes, assmebly);
+        String[] codigos = command.split(" ");
+        if(codigos[0].equals("leaw")){
             return CommandType.A_COMMAND;
+        }else if(codes.contains(codigos[0])){
+            return CommandType.C_COMMAND;
+        }else{
+            return  CommandType.L_COMMAND;
         }
-        if (!codes[0].equals("leaw")){
-            boolean isIn = false;
-            for (String s:assmebly){
-                if (codes[0].equals(s)){
-                    return CommandType.C_COMMAND;
-                }
-            }
-        }return CommandType.A_COMMAND;
     }
 
     /**

@@ -78,15 +78,26 @@ public class Parser {
      * @param  command instrução a ser analisada.
      * @return o tipo da instrução.
      */
-    public CommandType commandType(String command) {
+    public CommandType commandType(String command){
         String[] assmebly = new String[]{"movw","addw","subw","rsubw","incw","decw","notw","negw","andw","orw","jmp","je","jne","jg","jge","jl","jle","nop",};
-    	String[] comandos = command.split(" ");
-    	if (comandos[0] == "leaw"){
-    	    return CommandType.A_COMMAND;
-        }else if(Arrays.stream(comandos).anyMatch(comandos[0]::equals) == true){
-    	    return CommandType.C_COMMAND;
-        }else{return  CommandType.L_COMMAND;
-    }
+        String[] codes=new String[]{};
+        try {
+            codes = command.split(" ", 2);
+        } catch (Exception e){
+            codes[0] = command;
+        }
+
+        if (codes[0].equals("leaw")){
+            return CommandType.A_COMMAND;
+        }
+        if (!codes[0].equals("leaw")){
+            boolean isIn = false;
+            for (String s:assmebly){
+                if (codes[0].equals(s)){
+                    return CommandType.C_COMMAND;
+                }
+            }
+        }return CommandType.A_COMMAND;
     }
 
     /**

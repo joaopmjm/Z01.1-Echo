@@ -33,7 +33,7 @@ public class Parser {
     /** Enumerator para os tipos de comandos do Assembler. */
     public enum CommandType {
         A_COMMAND,      // comandos LEA, que armazenam no registrador A
-        C_COMMAND,      // comandos de calculos
+        C_COMMAND,      // comandos de calculosq
         L_COMMAND       // comandos de Label (símbolos)
     }
 
@@ -98,7 +98,7 @@ public class Parser {
      */
     public CommandType commandType(String command){
         String[] assmebly = new String[]{"movw","addw","subw","rsubw","incw","decw","notw","negw","andw","orw","jmp","je","jne","jg","jge","jl","jle","nop",};
-        LinkedList<String> codes = new LinkedList<String>();
+        LinkedList<String> codes = new LinkedList<>();
         Collections.addAll(codes, assmebly);
         String[] codigos = command.split(" ");
         if(codigos[0].equals("leaw")){

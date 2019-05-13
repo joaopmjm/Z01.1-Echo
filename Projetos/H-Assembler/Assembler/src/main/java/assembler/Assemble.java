@@ -24,7 +24,7 @@ public class Assemble {
 
     /**
      * Retorna o código binário do mnemônico para realizar uma operação de cálculo.
-     * @param  mnemnonic vetor de mnemônicos "instrução" a ser analisada.
+     * @param  /mnemnonic vetor de mnemônicos "instrução" a ser analisada.
      * @return Opcode (String de 7 bits) com código em linguagem de máquina para a instrução.
      */
     public Assemble(String inFile, String outFileHack, boolean debug) throws IOException {
@@ -46,11 +46,22 @@ public class Assemble {
      */
     public SymbolTable fillSymbolTable() throws FileNotFoundException, IOException {
         Parser parser = new Parser(inputFile);
-        while (parser.advance()){
+        String p;
+        int counter = 0;
+        while(parser.advance()) {
+            p = parser.command();
+            if (parser.commandType(p) == Parser.CommandType.A_COMMAND) {
+                counter++;
+            } else if (parser.commandType(p) == Parser.CommandType.C_COMMAND) {
 
+                counter++;
+            } else {
+                table.addEntry(parser.instruction(p), counter);
+                counter++;
+            }
         }
-
         return table;
+
     }
 
     /**

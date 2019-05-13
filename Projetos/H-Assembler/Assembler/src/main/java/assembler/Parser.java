@@ -137,9 +137,20 @@ public class Parser {
      * @return um vetor de string contento os tokens da instrução (as partes do comando).
      */
     public String[] instruction(String command) {
-    	return null;
+        command = command.trim();
+        String[] comandos = command.split(" ");
+        String[] fin;
+        if (comandos.length == 1){return new String[] {command};}
+        else{
+            String[] vars = comandos[1].split(",");
+            fin = new String[vars.length + 1];
+            fin[0] = comandos[0];
+            for (int i = 0;i < vars.length;i++){
+                fin[i+1] = vars[i];
+            }
+            return fin;
+        }
     }
-
     // fecha o arquivo de leitura
     public void close() throws IOException {
         fileReader.close();

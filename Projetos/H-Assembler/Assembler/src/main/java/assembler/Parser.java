@@ -116,7 +116,20 @@ public class Parser {
      * @param  command instrução a ser analisada.
      * @return somente o símbolo ou o valor número da instrução.
      */
-    public String symbol(String command) {return null;}
+
+    public String symbol(String command) {
+
+        String sym = "";
+
+        if (commandType(command) == CommandType.A_COMMAND) {
+
+            sym = command.replace("leaw $", "");
+
+            sym = sym.split(",")[0];
+        }
+
+        return sym;
+    }
 
     /**
      * Retorna o símbolo da instrução passada no argumento.

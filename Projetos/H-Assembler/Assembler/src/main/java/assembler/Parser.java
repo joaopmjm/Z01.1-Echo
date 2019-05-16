@@ -116,9 +116,7 @@ public class Parser {
      * @param  command instrução a ser analisada.
      * @return somente o símbolo ou o valor número da instrução.
      */
-    public String symbol(String command) {
-    	return null;
-    }
+    public String symbol(String command) {return null;}
 
     /**
      * Retorna o símbolo da instrução passada no argumento.
@@ -127,7 +125,12 @@ public class Parser {
      * @return o símbolo da instrução (sem os dois pontos).
      */
     public String label(String command) {
-    	return null;
+
+        String sim = "";
+
+        if (commandType(command) == CommandType.L_COMMAND) sim = command.replace(":", "");
+
+        return sim;
     }
 
     /**

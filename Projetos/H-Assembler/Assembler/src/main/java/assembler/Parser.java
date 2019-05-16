@@ -118,7 +118,7 @@ public class Parser {
      */
     public String symbol(String command) {
     	return null;
-    }
+}
 
     /**
      * Retorna o símbolo da instrução passada no argumento.

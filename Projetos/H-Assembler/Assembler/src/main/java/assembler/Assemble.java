@@ -45,11 +45,58 @@ public class Assemble {
      * Dependencia : Parser, SymbolTable
      */
     public SymbolTable fillSymbolTable() throws FileNotFoundException, IOException {
-        Parser parser = new Parser(inputFile);
-        while (parser.advance()){
-
+        Parser parser = new Parser(this.inputFile);
+        String p;
+        String[] instructionList;
+        String reg;
+        Boolean isNumeric;
+        String R;
+        int counter = 0;
+        int regCounter = 16;
+        while (parser.advance()) {
+            p = parser.command();
+            R = "R";
+            if (parser.commandType(p) == Parser.CommandType.A_COMMAND) {
+                instructionList = parser.instruction(p);
+                if (!table.contains(instructionList[1])) {
+                    reg = instructionList[1].split("\\$")[1];
+                    try {
+                        Integer.parseInt(reg);
+                        isNumeric = true;
+                    } catch (NumberFormatException e){
+                        isNumeric = false;
+                    }
+                    if (isNumeric) {
+                        R = R.concat(reg);
+                        if (!table.contains(R)) {
+                            table.addEntry(R, regCounter);
+                            regCounter++;
+                        }
+                    } else {
+                        table.addEntry(reg, regCounter);
+                        regCounter++;
+                    }
+                }
+                counter++;
+            } else if (parser.commandType(p) == Parser.CommandType.C_COMMAND) {
+                instructionList = parser.instruction(p);
+                if (instructionList.length > 1) {
+                    if (!table.contains(instructionList[1])) {
+                        reg = instructionList[1].split("%")[1];
+                        if (!(reg.equals("A") || reg.equals("D") || reg.equals("S") || reg.equals("A)"))) {
+                            table.addEntry(instructionList[1], regCounter);
+                            regCounter++;
+                        }
+                    }
+                }
+                counter++;
+            } else {
+                instructionList = parser.instruction(p);
+                if (!table.contains(instructionList[1])) {
+                    table.addEntry(parser.instruction(p)[0], counter);
+                }
+            }
         }
-
         return table;
     }
 

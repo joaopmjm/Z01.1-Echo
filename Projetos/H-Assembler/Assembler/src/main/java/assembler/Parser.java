@@ -117,7 +117,17 @@ public class Parser {
      * @return somente o símbolo ou o valor número da instrução.
      */
     public String symbol(String command) {
-    	return null;
+
+        String sym = "";
+
+        if (commandType(command) == CommandType.A_COMMAND) {
+
+            sym = command.replace("leaw $", "");
+
+            sym = sym.split(",")[0];
+        }
+
+        return sym;
     }
 
     /**

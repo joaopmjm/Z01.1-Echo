@@ -37,7 +37,7 @@ public class Code {
      */
     public void writeArithmetic(String command) {
 
-        if ( command.equals("")) {
+        if (command.equals("")) {
             Error.error("Instrução invalida");
         }
 
@@ -66,10 +66,23 @@ public class Code {
 
         } else if (command.equals("or")) {
             commands.add(String.format("; %d - OR", lineCode++));
+            commands.add("leaw $SP, %A");
+            commands.add("movw (%A), %s");
+            commands.add("subw %s, $2, %s");
+            commands.add("movw %s, %A");
+            commands.add("movw (%A), %d");
+            commands.add("incw %s");
+            commands.add("movw %s, %A");
+            commands.add("orw (%A), %d, %d");
+            commands.add("movw %d, (%A)");
 
         } else if (command.equals("not")) {
             commands.add(String.format("; %d - NOT", lineCode++));
-
+            commands.add("leaw $SP, %A");
+            commands.add("subw (%A), $1, %A");
+            commands.add("movw (%A), %d");
+            commands.add("notw %d");
+            commands.add("movw %d, (%A)");
         }
 
         String[] stringArray = new String[ commands.size() ];
@@ -86,7 +99,7 @@ public class Code {
      */
     public void writePushPop(Parser.CommandType command, String segment, Integer index) {
 
-        if ( command.equals("")) {
+        if (command.equals("")) {
             Error.error("Instrução invalida");
         }
 

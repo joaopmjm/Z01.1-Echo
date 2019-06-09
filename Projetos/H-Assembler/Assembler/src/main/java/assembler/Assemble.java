@@ -110,6 +110,7 @@ public class Assemble {
     public void generateMachineCode() throws FileNotFoundException, IOException{
         Parser parser = new Parser(inputFile);  // abre o arquivo e aponta para o começo
         String instruction  = null;
+        String destino, computa, pulo, symbol, binario,bit;
 
         /**
          * Aqui devemos varrer o código nasm linha a linha
@@ -117,10 +118,25 @@ public class Assemble {
          * de instrução válida do nasm
          */
         while (parser.advance()){
+            String[] comandos = parser.instruction(parser.command());
             switch (parser.commandType(parser.command())){
                 case C_COMMAND:
+                    bit = "10";
+                    destino = Code.dest(comandos);
+                    computa = Code.comp(comandos);
+                    pulo = Code.jump(comandos);
+                    instruction = bit + computa + destino + pulo;
                     break;
                 case A_COMMAND:
+                    bit = "00";
+                    symbol = parser.symbol(parser.command());
+                    if (table.contains(symbol)) {
+                        int symbol_value = table.getAddress(symbol);
+                        binario = Code.toBinary(Integer.toString(symbol_value));
+                    } else {
+                        binario = Code.toBinary(symbol);
+                    }
+                    instruction = bit + binario;
                     break;
                 default:
                     continue;

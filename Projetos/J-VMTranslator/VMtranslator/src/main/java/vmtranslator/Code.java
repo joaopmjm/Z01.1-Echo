@@ -21,6 +21,7 @@ public class Code {
     PrintWriter outputFile = null;  // arquivo .nasm de saída
     String filename = null;         // arquivo .vm de entrada
     int lineCode = 0;               // Linha do codigo vm que gerou as instrucoes
+    int countereq = 0;
 
     /**
      * Abre o arquivo de saida e prepara para escrever
@@ -66,7 +67,7 @@ public class Code {
             commands.add("movw (%A), %S");
             commands.add("decw %A");
             commands.add("movw (%A), %D");
-            commands.add("subw %S, %D, %D");
+            commands.add("subw %D, %S, %D");
             commands.add("movw %D, (%A)");
             commands.add("incw %A");
             commands.add("movw %A, %D");
@@ -79,15 +80,41 @@ public class Code {
             commands.add("subw (%A), $1, %A");
             commands.add("movw (%A), %D");
             commands.add("negw %D");
-            commands.add("movw D, (%A)");
+            commands.add("movw %D, (%A)");
 
         } else if (command.equals("eq")) {
-            commands.add(String.format("; %d - EQ", lineCode++));
+            commands.add("leaw $SP,%A");
+            commands.add("movw (%A), %A");
+            commands.add("decw %A");
+            commands.add("movw (%A), %S");
+            commands.add("decw %A");
+            commands.add("movw (%A), %D");
+            commands.add("subw %D, %S, %D");
+            commands.add("movw %A, %S");
+            commands.add("incw %S");
             commands.add("leaw $SP, %A");
-            commands.add("movw $SP, %A");
+            commands.add("movw %S, (%A)");
+            commands.add("leaw $EQ" + filename + countereq +", %A");
+            commands.add("je %D");
+            commands.add("nop");
+            commands.add("leaw $0, %A");
+            commands.add("movw %A, %D");
+            commands.add("leaw $EQ-END" + filename + countereq + ", %A");
+            commands.add("jmp");
+            commands.add("nop");
+            commands.add("EQ" + filename + countereq + ":");
+            commands.add("leaw $65535, %A");
+            commands.add("movw %A, %D");
+            commands.add("EQ-END" + filename + countereq + ":");
+            commands.add("leaw $SP, %A");
+            commands.add("movw (%A), %A");
+            commands.add("decw %A");
+            commands.add("movw %D, (%A)");
+            countereq++;
 
         } else if (command.equals("gt")) {
             commands.add(String.format("; %d - GT", lineCode++));
+
 
         } else if (command.equals("lt")) {
             commands.add(String.format("; %d - LT", lineCode++));
@@ -146,6 +173,18 @@ public class Code {
             } else if (segment.equals("argument")) {
 
             } else if (segment.equals("this")) {
+                commands.add("leaw $SP,%A");
+                commands.add("movw (%A), %S");
+                commands.add("decw %S");
+                commands.add("movw %S, (%A)");
+                commands.add("movw (%A), %A");
+                commands.add("movw (%A), %S");
+                commands.add("leaw $" + index + ", %A");
+                commands.add("movw %A,%D");
+                commands.add("leaw $THIS,%A");
+                commands.add("movw (%A),%A");
+                commands.add("addw %A, %D, %A");
+                commands.add("movw %S, (%A)");
 
             } else if (segment.equals("that")) {
 
@@ -170,7 +209,19 @@ public class Code {
             } else if (segment.equals("argument")) {
 
             } else if (segment.equals("this")) {
-
+                commands.add("leaw $" + index + ", %A");
+                commands.add("movw %A,%D");
+                commands.add("leaw $THIS,%A");
+                commands.add("movw (%A),%A");
+                commands.add("addw %A, %D, %A");
+                commands.add("movw (%A), %S");
+                commands.add("leaw $SP, %A");
+                commands.add("movw (%A), %A");
+                commands.add("movw %S, (%A)");
+                commands.add("leaw $SP,%A");
+                commands.add("movw (%A),%S");
+                commands.add("incw %S");
+                commands.add("movw %S, (%A)");
             } else if (segment.equals("that")) {
 
             } else if (segment.equals("static")) {

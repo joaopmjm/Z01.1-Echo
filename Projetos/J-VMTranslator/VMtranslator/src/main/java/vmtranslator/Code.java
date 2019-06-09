@@ -201,9 +201,19 @@ public class Code {
 
             } else if (segment.equals("pointer")) {
                 if(index==0) {
-
+                    commands.add("leaw $SP, %A");
+                    commands.add("movw (%A), %A");
+                    commands.add("decw %A");
+                    commands.add("movw (%A), %S");
+                    commands.add("leaw $THIS, %A");
+                    commands.add("movw %S, (%A)");
                 } else {
-
+                    commands.add("leaw $SP, %A");
+                    commands.add("movw (%A), %A");
+                    commands.add("decw %A");
+                    commands.add("movw (%A), %S");
+                    commands.add("leaw $THAT, %A");
+                    commands.add("movw %S, (%A)");
                 }
             }
         } else if (command == Parser.CommandType.C_PUSH) {

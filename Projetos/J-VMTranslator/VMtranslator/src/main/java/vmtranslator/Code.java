@@ -22,6 +22,8 @@ public class Code {
     String filename = null;         // arquivo .vm de entrada
     int lineCode = 0;               // Linha do codigo vm que gerou as instrucoes
     int countereq = 0;
+    int counterlt = 0;
+    int countergt = 0;
 
     /**
      * Abre o arquivo de saida e prepara para escrever
@@ -114,9 +116,58 @@ public class Code {
 
         } else if (command.equals("gt")) {
             commands.add(String.format("; %d - GT", lineCode++));
+            commands.add("leaw $SP, %A");
+            commands.add("movw (%A), %A");
+            commands.add("decw %A");
+            commands.add("movw (%A), %S");
+            commands.add("decw %A");
+            commands.add("movw (%A), %D");
+            commands.add("subw %D, %S, %D");
+            commands.add("leaw $GT" + filename + countergt + ", %A");
+            commands.add("jgt %D");
+            commands.add("nop");
+            commands.add("leaw $0, %A");
+            commands.add("movw %A, %D");
+            commands.add("leaw $GT-END" + filename + countergt + ", %A");
+            commands.add("jmp");
+            commands.add("nop");
+            commands.add("GT" + filename + countergt + ":");
+            commands.add("leaw $65535, %A");
+            commands.add("movw %A, %D");
+            commands.add("GT-END" + filename + countergt + ":");
+            commands.add("leaw $SP, %A");
+            commands.add("movw (%A), %A");
+            commands.add("decw %A");
+            commands.add("movw %A, (%A)");
+            countergt++;
 
         } else if (command.equals("lt")) {
             commands.add(String.format("; %d - LT", lineCode++));
+            commands.add("leaw $SP, %A");
+            commands.add("movw (%A), %A");
+            commands.add("decw %A");
+            commands.add("movw (%A), %S");
+            commands.add("decw %A");
+            commands.add("movw (%A), %D");
+            commands.add("subw %D, %S, %D");
+            commands.add("leaw $LT" + filename + counterlt + ", %A");
+            commands.add("jlt %D");
+            commands.add("nop");
+            commands.add("leaw $0, %A");
+            commands.add("movw %A, %D");
+            commands.add("leaw $LT-END" + filename + counterlt + ", %A");
+            commands.add("jmp");
+            commands.add("nop");
+            commands.add("LT" + filename + counterlt + ":");
+            commands.add("leaw $65535, %A");
+            commands.add("movw %A, %D");
+            commands.add("LT-END" + filename + counterlt + ":");
+            commands.add("leaw $SP, %A");
+            commands.add("movw (%A), %A");
+            commands.add("decw %A");
+            commands.add("movw %A, (%A)");
+            counterlt++;
+
 
         } else if (command.equals("and")) {
             commands.add(String.format("; %d - AND", lineCode++));

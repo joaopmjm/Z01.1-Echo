@@ -60,7 +60,7 @@ public class Parser {
                 String read = fileReader.readLine();
                 this.lineNumber++;
                 if (read == null){ return false;}
-                else if(commandType(read).equals(CommandType.A_COMMAND) || commandType(read).equals(CommandType.C_COMMAND)){
+                else {// if(commandType(read).equals(CommandType.A_COMMAND) || commandType(read).equals(CommandType.C_COMMAND)){
                     this.currentCommand = read;
                     return true;
                 }
@@ -153,19 +153,10 @@ public class Parser {
      * @return um vetor de string contento os tokens da instrução (as partes do comando).
      */
     public String[] instruction(String command) {
-        command = command.trim();
+        command = command.replace(",", " ");
+        command = command.replace("  ", " ");
         String[] comandos = command.split(" ");
-        String[] fin;
-        if (comandos.length == 1){return new String[] {command};}
-        else{
-            String[] vars = comandos[1].split(",");
-            fin = new String[vars.length + 1];
-            fin[0] = comandos[0];
-            for (int i = 0;i < vars.length;i++){
-                fin[i+1] = vars[i];
-            }
-            return fin;
-        }
+        return comandos;
     }
     // fecha o arquivo de leitura
     public void close() throws IOException {

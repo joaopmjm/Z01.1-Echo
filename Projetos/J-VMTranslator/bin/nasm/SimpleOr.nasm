@@ -1,11 +1,14 @@
 ; 0 - OR
 leaw $SP, %A
+movw (%A), %A
+decw %A
 movw (%A), %S
-subw %S, $2, %S
-movw %S, %A
-movw (%A), %d
-incw %S
-movw %S, %A
-orw (%A), %D, %D
+decw %A
+movw (%A), %D
+orw %S, %D, %D
+movw %D, (%A)
+incw %A
+movw %A, %D
+leaw $SP, %A
 movw %D, (%A)
 ; End

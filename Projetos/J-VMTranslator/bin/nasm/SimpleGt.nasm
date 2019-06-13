@@ -1,25 +1,28 @@
-; 0 - GT
-leaw $SP, %A
+leaw $SP,%A
 movw (%A), %A
 decw %A
 movw (%A), %S
 decw %A
 movw (%A), %D
 subw %D, %S, %D
-leaw $GTSimpleGt0, %A
-jgt %D
+movw %A, %S
+incw %S
+leaw $SP, %A
+movw %S, (%A)
+leaw $EQSimpleGt0, %A
+jg %D
 nop
 leaw $0, %A
 movw %A, %D
-leaw $GT-ENDSimpleGt0, %A
+leaw $EQ-ENDSimpleGt0, %A
 jmp
 nop
-GTSimpleGt0:
+EQSimpleGt0:
 leaw $65535, %A
 movw %A, %D
-GT-ENDSimpleGt0:
+EQ-ENDSimpleGt0:
 leaw $SP, %A
 movw (%A), %A
 decw %A
-movw %A, (%A)
+movw %D, (%A)
 ; End

@@ -271,8 +271,16 @@ public class Code {
             commands.add(String.format("; %d - PUSH %s %d", lineCode++ ,segment, index));
 
             if (segment.equals("constant")) {
-               
+                commands.add("leaw $" + index + ",%A");
+                commands.add("movw %A,%D");
+                commands.add("leaw $SP, %A");
+                commands.add("movw (%A), %A");
+                commands.add("movw %D,(%A)");
+                commands.add("addw %A,$1,%S");
+                commands.add("leaw $SP, %A");
+                commands.add("movw %S,(%A)");
             } else if (segment.equals("local")) {
+                
 
             } else if (segment.equals("argument")) {
 

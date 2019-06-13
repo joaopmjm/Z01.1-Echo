@@ -24,7 +24,7 @@ public class Assemble {
 
     /**
      * Retorna o código binário do mnemônico para realizar uma operação de cálculo.
-     * @param  mnemnonic vetor de mnemônicos "instrução" a ser analisada.
+     * @param  ;mnemnonic vetor de mnemônicos "instrução" a ser analisada.
      * @return Opcode (String de 7 bits) com código em linguagem de máquina para a instrução.
      */
     public Assemble(String inFile, String outFileHack, boolean debug) throws IOException {
@@ -47,55 +47,42 @@ public class Assemble {
     public SymbolTable fillSymbolTable() throws FileNotFoundException, IOException {
         Parser parser = new Parser(this.inputFile);
         String p;
-        String[] instructionList;
-        String reg;
-        Boolean isNumeric;
-        String R;
+        String symbol;
+        String label;
         int counter = 0;
         int regCounter = 16;
+        // primeiro loop para salvar labels
         while (parser.advance()) {
             p = parser.command();
-            R = "R";
+            if (parser.commandType(p) == Parser.CommandType.L_COMMAND) {
+                label = parser.label(p);
+                table.addEntry(label, counter);
+                counter--;
+            }
+            counter++;
+        }
+
+        // segundo loop para salvar simbolos em comandos tipo A
+
+        Parser parser1 = new Parser(this.inputFile);
+        boolean check;
+        while (parser1.advance()) {
+            p = parser1.command();
             if (parser.commandType(p) == Parser.CommandType.A_COMMAND) {
-                instructionList = parser.instruction(p);
-                if (!table.contains(instructionList[1])) {
-                    reg = instructionList[1].split("\\$")[1];
-                    try {
-                        Integer.parseInt(reg);
-                        isNumeric = true;
-                    } catch (NumberFormatException e){
-                        isNumeric = false;
-                    }
-                    if (isNumeric) {
-                        R = R.concat(reg);
-                        if (!table.contains(R)) {
-                            table.addEntry(R, regCounter);
-                            regCounter++;
-                        }
-                    } else {
-                        table.addEntry(reg, regCounter);
-                        regCounter++;
-                    }
+                symbol = parser1.symbol(p);
+                try {
+                    Integer.parseInt(symbol);
+                    check = true;
+                } catch (NumberFormatException e) {
+                    check = false;
                 }
-                counter++;
-            } else if (parser.commandType(p) == Parser.CommandType.C_COMMAND) {
-                instructionList = parser.instruction(p);
-                if (instructionList.length > 1) {
-                    if (!table.contains(instructionList[1])) {
-                        reg = instructionList[1].split("%")[1];
-                        if (!(reg.equals("A") || reg.equals("D") || reg.equals("S") || reg.equals("A)"))) {
-                            table.addEntry(instructionList[1], regCounter);
-                            regCounter++;
-                        }
-                    }
-                }
-                counter++;
-            } else {
-                instructionList = parser.instruction(p);
-                if (!table.contains(instructionList[1])) {
-                    table.addEntry(parser.instruction(p)[0], counter);
+
+                if (!table.contains(symbol) && !check) {
+                    table.addEntry(symbol, regCounter);
+                    regCounter++;
                 }
             }
+
         }
         return table;
     }

@@ -16,6 +16,9 @@ public class Code {
      * @return Opcode (String de 4 bits) com código em linguagem de máquina para a instrução.
      */
     public static String dest(String[] mnemnonic) {
+        if (mnemnonic[0].contains("j")) {
+            return "0000";
+        }
         if (mnemnonic[0].equals("movw")){
             if (mnemnonic.length == 4){
                 if ((mnemnonic[mnemnonic.length -1].equals("%D") && mnemnonic[mnemnonic.length-2].equals("%S")) ||  ((mnemnonic[mnemnonic.length-1].equals("%S") && mnemnonic[mnemnonic.length-2].equals("%D")))){
@@ -29,17 +32,11 @@ public class Code {
                 return "0101";
             }else if((mnemnonic[mnemnonic.length -1].equals("%D") && mnemnonic[mnemnonic.length-2].equals("(%A)")) ||  ((mnemnonic[mnemnonic.length-1].equals("(%A)") && mnemnonic[mnemnonic.length-2].equals("%D")))){
                 return "0011";
-            }}}
+            }
+            }
+        }
 
         switch (mnemnonic[mnemnonic.length-1]){
-            case "jmp"  :
-            case "jg"   :
-            case "je"   :
-            case "jge"  :
-            case "jl"   :
-            case "jne"  :
-            case "jle"  :
-                return "0000";
             case "%A"  : return "1000";
             case "%D"  : return "0010";
             case "%S"  : return "0100";
@@ -69,7 +66,7 @@ public class Code {
                                                                                     
           if ((mnemnonic[1].equals("%S") && mnemnonic[2].equals("%D"))|| 
                   (mnemnonic[1].equals("%D") && mnemnonic[2].equals("%S"))) 
-              binAB = "100";
+              binAB = "101";
           
           if ((mnemnonic[1].equals("%D") && mnemnonic[2].equals("(%A)"))||
                   (mnemnonic[1].equals("(%A)") && mnemnonic[2].equals("%D"))) 
@@ -118,11 +115,18 @@ public class Code {
           if (mnemnonic[1].equals("%A")) {
               out = "000";
           }
-          if (mnemnonic[1].equals("%D")) {
+          if (mnemnonic[1].equals("%D") || mnemnonic[1].equals("$1") || mnemnonic[1].equals("$0")) {
               out = "000";
           }
-          if (mnemnonic[1].contains("%A") || mnemnonic[1].contains("(%A)")) return out+"110000";
-          else return out + "001100";
+          if (mnemnonic[1].contains("%A") || mnemnonic[1].contains("(%A)")) { return out+"110000"; }
+
+          else if (mnemnonic[1].contains("$1")) {
+              return out + "111111";
+          } else if (mnemnonic[1].contains("$0")) {
+              return out + "101010";
+          } else {
+              return out + "001100";
+          }
         }
 
         if (mnemnonic[0].equals("incw")){

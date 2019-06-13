@@ -30,6 +30,14 @@ decw %A
 movw %D, (%A)
 ; 4 - PUSH constant 3
 ; 5 - POP temp 0
+leaw $SP, %A
+movw (%A), %S
+decw %S
+movw %S, (%A)
+movw %S, %A
+movw (%A), %S
+leaw $5, %A
+movw %S, (%A)
 ; 6 - PUSH constant 15
 ; 7 - PUSH constant 9
 leaw $SP,%A
@@ -61,4 +69,12 @@ decw %A
 movw %D, (%A)
 ; 9 - PUSH constant 2
 ; 10 - POP temp 1
+leaw $SP, %A
+movw (%A), %S
+decw %S
+movw %S, (%A)
+movw %S, %A
+movw (%A), %S
+leaw $6, %A
+movw %S, (%A)
 ; End

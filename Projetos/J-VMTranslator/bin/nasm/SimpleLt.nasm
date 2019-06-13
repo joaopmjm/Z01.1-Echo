@@ -1,25 +1,28 @@
-; 0 - LT
-leaw $SP, %A
+leaw $SP,%A
 movw (%A), %A
 decw %A
 movw (%A), %S
 decw %A
 movw (%A), %D
 subw %D, %S, %D
-leaw $LTSimpleLt0, %A
-jlt %D
+movw %A, %S
+incw %S
+leaw $SP, %A
+movw %S, (%A)
+leaw $EQSimpleLt0, %A
+jl %D
 nop
 leaw $0, %A
 movw %A, %D
-leaw $LT-ENDSimpleLt0, %A
+leaw $EQ-ENDSimpleLt0, %A
 jmp
 nop
-LTSimpleLt0:
+EQSimpleLt0:
 leaw $65535, %A
 movw %A, %D
-LT-ENDSimpleLt0:
+EQ-ENDSimpleLt0:
 leaw $SP, %A
 movw (%A), %A
 decw %A
-movw %A, (%A)
+movw %D, (%A)
 ; End

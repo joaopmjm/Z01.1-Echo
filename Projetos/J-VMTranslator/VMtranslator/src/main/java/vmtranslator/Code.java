@@ -304,10 +304,49 @@ public class Code {
             commands.add(String.format("; %d - PUSH %s %d", lineCode++ ,segment, index));
 
             if (segment.equals("constant")) {
-               
+                //save constant in %D
+                commands.add("leaw $" + index + ",%A");
+                commands.add("movw %A,%D");
+                //save D to stack pointer
+                commands.add("leaw $SP, %A");
+                commands.add("movw (%A), %A");
+                commands.add("movw %D,(%A)");
+                //increment stack pointer
+                commands.add("addw %A,$1,%S");
+                commands.add("leaw $SP, %A");
+                commands.add("movw %S,(%A)");
+
             } else if (segment.equals("local")) {
+                //save local in D
+                commands.add("leaw $LCL, %A");
+                commands.add("movw (%A), %D");
+                commands.add("leaw $" + index + " ,%A");
+                commands.add("addw %A,%D,%A");
+                commands.add("movw (%A),%D");
+                //save D to stack pointer
+                commands.add("leaw $SP, %A");
+                commands.add("movw (%A), %A");
+                commands.add("movw %D,(%A)");
+                //increment stack pointer
+                commands.add("addw %A,$1,%S");
+                commands.add("leaw $SP, %A");
+                commands.add("movw %S,(%A)");
 
             } else if (segment.equals("argument")) {
+                //save argument in D
+                commands.add("leaw $ARG, %A");
+                commands.add("movw (%A), %D");
+                commands.add("leaw $" + index + " ,%A");
+                commands.add("addw %A,%D,%A");
+                commands.add("movw (%A),%D");
+                //save D to stack pointer
+                commands.add("leaw $SP, %A");
+                commands.add("movw (%A), %A");
+                commands.add("movw %D,(%A)");
+                //increment stack pointer
+                commands.add("addw %A,$1,%S");
+                commands.add("leaw $SP, %A");
+                commands.add("movw %S,(%A)");
 
             } else if (segment.equals("this")) {
                 commands.add("leaw $" + index + ", %A");
@@ -324,10 +363,36 @@ public class Code {
                 commands.add("incw %S");
                 commands.add("movw %S, (%A)");
             } else if (segment.equals("that")) {
+                commands.add("leaw $" + index + ", %A");
+                commands.add("movw %A,%D");
+                commands.add("leaw $THAT,%A");
+                commands.add("movw (%A),%A");
+                commands.add("addw %A, %D, %A");
+                commands.add("movw (%A), %S");
+                commands.add("leaw $SP, %A");
+                commands.add("movw (%A), %A");
+                commands.add("movw %S, (%A)");
+                commands.add("leaw $SP,%A");
+                commands.add("movw (%A),%S");
+                commands.add("incw %S");
+                commands.add("movw %S, (%A)");
+
 
             } else if (segment.equals("static")) {
 
             } else if (segment.equals("temp")) {
+                //save temp in D
+                commands.add("leaw $" + (5 + index) + " ,%A");
+                commands.add("movw (%A),%D");
+                //save D to stack pointer
+                commands.add("leaw $SP, %A");
+                commands.add("movw (%A), %A");
+                commands.add("movw %D,(%A)");
+                //increment stack pointer
+                commands.add("addw %A,$1,%S");
+                commands.add("leaw $SP, %A");
+                commands.add("movw %S,(%A)");
+
 
             } else if (segment.equals("pointer")) {
                 if(index==0) {

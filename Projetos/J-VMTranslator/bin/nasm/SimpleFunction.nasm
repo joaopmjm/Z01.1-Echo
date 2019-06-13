@@ -2,9 +2,11 @@
 leaw $Main.main, %A
 jmp
 nop
-; 1 - PUSH argument 0
-; 2 - PUSH argument 1
-; 3 - ADD
+; 1 - PUSH constant 1
+; 2 - PUSH constant 2
+; 6 - PUSH argument 0
+; 7 - PUSH argument 1
+; 8 - ADD
 leaw $SP, %A
 movw (%A), %A
 decw %A
@@ -17,6 +19,4 @@ incw %A
 movw %A, %D
 leaw $SP, %A
 movw %D, (%A)
-; 6 - PUSH constant 1
-; 7 - PUSH constant 2
 ; End

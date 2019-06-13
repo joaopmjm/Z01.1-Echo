@@ -227,6 +227,19 @@ public class Code {
             if (segment.equals("constant")) {
                 Error.error("Não faz sentido POP com constant");
             } else if (segment.equals("local")) {
+                commands.add("leaw $SP,%A");
+                commands.add("movw (%A), %S");
+                commands.add("decw %S");
+                commands.add("movw %S, (%A)");
+                commands.add("movw %S, %A");
+                commands.add("movw (%A), %S");
+                commands.add("leaw $LCL, %A");
+                commands.add("movw (%A), %A");
+                commands.add("movw %A, %D");
+                commands.add("leaw $" + index + ", %A");
+                commands.add("addw %A, %D, %A");
+                commands.add("movw %S, (%A)");
+
 
             } else if (segment.equals("argument")) {
 
@@ -245,10 +258,30 @@ public class Code {
                 commands.add("movw %S, (%A)");
 
             } else if (segment.equals("that")) {
+                commands.add("leaw $SP,%A");
+                commands.add("movw (%A), %S");
+                commands.add("decw %S");
+                commands.add("movw %S, (%A)");
+                commands.add("movw (%A), %A");
+                commands.add("movw (%A), %S");
+                commands.add("leaw $" + index + ", %A");
+                commands.add("movw %A,%D");
+                commands.add("leaw $THAT,%A");
+                commands.add("movw (%A),%A");
+                commands.add("addw %A, %D, %A");
+                commands.add("movw %S, (%A)");
 
             } else if (segment.equals("static")) {
 
             } else if (segment.equals("temp")) {
+                commands.add("leaw $SP, %A");
+                commands.add("movw (%A), %S");
+                commands.add("decw %S");
+                commands.add("movw %S, (%A)");
+                commands.add("movw %S, %A");
+                commands.add("movw (%A), %S");
+                commands.add("leaw $" + (index+5) + ", %A");
+                commands.add("movw %S, (%A)");
 
             } else if (segment.equals("pointer")) {
                 if(index==0) {

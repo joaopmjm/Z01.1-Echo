@@ -63,7 +63,6 @@ public class Assemble {
         }
 
         // segundo loop para salvar simbolos em comandos tipo A
-
         Parser parser1 = new Parser(this.inputFile);
         boolean check;
         while (parser1.advance()) {

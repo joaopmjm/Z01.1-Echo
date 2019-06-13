@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Encapsula o código de leitura. Carrega as instruções na linguagem assembly,
@@ -55,17 +56,27 @@ public class Parser {
      */
     public Boolean advance() {
         // usar o fileReader.readLine();
-        try{
-            while(true){
-                String read = fileReader.readLine();
+        try {
+            while(true) {
+                String read = ";";
+                while (read.charAt(0) == ';') {
+                    read = fileReader.readLine();
+                    if (read == null) {
+                        return false;
+                    }
+                    if (read.length() == 0) {
+                        read = fileReader.readLine();
+                    }
+                }
                 this.lineNumber++;
-                if (read == null){ return false;}
-                else {// if(commandType(read).equals(CommandType.A_COMMAND) || commandType(read).equals(CommandType.C_COMMAND)){
+                if (read != null) {
                     this.currentCommand = read;
                     return true;
+                } else {
+                    return false;
                 }
             }
-        }catch (IOException ex){ex.printStackTrace();}
+        } catch (IOException ex){ex.printStackTrace();}
         return null;
     }
 
@@ -78,13 +89,15 @@ public class Parser {
         String sts = "";
         for(String s:sp){
             if (!s.isEmpty()){
-            if (s.charAt(0) != ';'){
-                sts += s + " ";
-            }else{
-                break;
+                if (s.charAt(0) != ';'){
+                    sts += s + " ";
+                } else {
+                    break;
+                }
             }
-        }}
-        this.currentCommand = sts.substring(0, sts.length() - 1);
+        }
+
+        this.currentCommand = sts.trim();
     	return this.currentCommand;
     }
 
